@@ -1,0 +1,14 @@
+stages:
+  - publish
+  - build
+
+publish_project:
+  stage: publish
+  script:
+    - dotnet publish -c Release -o ./publish
+
+build_docker_image:
+  stage: build
+  script:
+    - docker build -t dstv3.uploadinterface.api .
+    - docker run -d -p 8503:8503 --name dstv3.uploadinterface.api dstv3.uploadinterface.api
